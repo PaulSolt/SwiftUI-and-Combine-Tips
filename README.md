@@ -251,6 +251,8 @@
 	```
 
 
+
+
 # Nice or Safe
 
 1. No more bugs from forgetting to call `super.methodName()` when using struct value types.
@@ -276,14 +278,24 @@
 
 # BUGS: 
 
-1. BUG: Playgrounds with Combine deadlock Xcode 11 Beta 7
+A List of bugs I've found, but haven't reported yet. Feel free to send Apple Feedback reports. I will attach Feedback #'s when I (or you) file them.
 
+1. BUG: Playgrounds with Combine deadlock Xcode 11 Beta 7
+	TODO: REPORT THIS BUG
+	
 	 If I run, then I try to double click text to select, Xcode is deadlocked
 
 	Workaround: use a Mac Terminal app or iPhone app to prototype code
 
+2. BUG: `Text("Hello ... long text").lineLimit()` doesn't work in Xcode 11 Beta 7
+
 	TODO: REPORT THIS BUG
-2. 
+	
+	```swift
+	Text(self.review.body)
+	    .font(.body)
+	    .lineLimit(Int.max) // 10)
+	```
 
 # TODO: More research Needed
 
