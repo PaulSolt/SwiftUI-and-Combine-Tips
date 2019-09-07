@@ -1,4 +1,12 @@
-# SwiftUI and Combine Rules
+# SwiftUI and Combine Tip
+
+## Demo Repositories
+
+* [Combine Timer (Count up)](https://github.com/PaulSolt/CombineTimer)
+
+
+## Tips
+
 
 1. `@Publisher` needs to be contained in a class. Publishers are reference types.
 
@@ -218,29 +226,31 @@
 
 12. Use `@EnvironmentObject` for dependency injection of your model into different view controllers. Use this when you don't want to keep passing an @ObservableObject from parent `View` to child `View` when using initializer dependency injection.
 
-13. There is no `viewDidLoad()`, but you can get similar behavior in a SwiftUI project by using `onAppear` publisher.
+13. Play with Combine or imperative code in the onAppear callback.
 
+	NOTE: There is no `viewDidLoad()`, but you can get similar behavior in a SwiftUI project by using `onAppear` publisher.
 
 	```swift
 	struct ContentView: View {
+	    @State private var text: String = "Swift"
+	    
 	    var body: some View {
-	        Text("Hello World")
+	        Text(text)
 	            .onAppear(perform: viewDidAppear)
 	    }
-	}
-	
-	func viewDidAppear() {
-	    print("Hello World!")
-	    // Experiment here
 	    
-	    _ = ["Hello", "World"]
-	        .publisher
-	        .sink(receiveCompletion: { (status) in
-	            print("status: \(status)")  // called when finished "iterating" array
-	        }) { (word) in
-	            //        print("Word!")
-	            print(word) // called for each element in the array
+	    func viewDidAppear() {
+	        print("Hello World!")
+	        // Experiment here
+	        
+	        _ = ["Hello", "World"]
+	            .publisher
+	            .sink(receiveCompletion: { (status) in
+	                print("status: \(status)")  // called when finished "iterating" array
+	            }) { (word) in
+	                print(word) // called for each element in the array
 	        }
+	    }
 	}
 	
 	struct ContentView_Previews: PreviewProvider {
@@ -250,10 +260,34 @@
 	}
 	```
 
+14. You can't mutate state in `body` or helper functions unless the variables are marked as such `@State`
+
+Error 1
+
+```swift
+struct ContentView: View {
+    @State private var text: String = "Swift"
+    
+    var timer: AnyCancellable? = nil
+    
+    var body: some View {
+        VStack {
+            Text(text)
+            Button(action: {
+	       // ERROR: Cannot assign to property [i.e. timer]: 'self' is immutable
+                timer = Timer.publish(every: 0.2, on: .main, in: .default)
+                    .sink {
+                        print($0)
+                }
+```
+
+
+15. Make sure you call `autoconnect()` or `connect()` on your Timer publisher. 
 
 
 
-# Nice or Safe
+
+## Nice and Safe
 
 1. No more bugs from forgetting to call `super.methodName()` when using struct value types.
 
@@ -274,7 +308,8 @@
 	```
 
 
-2. 
+2. If you create a new timer, the old timer will be cleaned up automatically (no more duplicate timers and juggling timer creation logic!)
+
 
 # BUGS: 
 
@@ -297,6 +332,47 @@ A List of bugs I've found, but haven't reported yet. Feel free to send Apple Fee
 	    .lineLimit(Int.max) // 10)
 	```
 
+3. BUG: Error message is not helpful about why the Combine publisher cannot assign to the property. It should talk about the "Character" != String type mismatch?
+
+	```swift
+	struct ContentView: View {
+	    @State private var text: String = "Swift"
+	    
+	    var body: some View {
+	        Text(text)
+	            .onAppear(perform: viewDidAppear)
+	    }
+	    
+	    func viewDidAppear() {
+	        print("Hello World!")
+	        // Experiment here
+	        
+	        _ = ["Hello", "World"]
+	            .publisher
+	            .sink(receiveCompletion: { (status) in
+	                print("status: \(status)")  // called when finished "iterating" array
+	            }) { (word) in
+	                print(word) // called for each element in the array
+	        }
+	        
+	        // Does not match type! (Character != String)
+	        "Hello world!"
+	            .publisher
+	//            .map({ String($0) })	// FIX: Map to String
+	            .assign(to: \.text, on: self) // ERROR: Type of expression is ambiguous without more context
+	    }
+	}
+	
+	struct ContentView_Previews: PreviewProvider {
+	    static var previews: some View {
+	        ContentView()
+	    }
+	}
+	```
+
+4. 
+
+
 # TODO: More research Needed
 
 1. Add sinks to variables, but hold onto the publishers (otherwise you may not get notifications?)
@@ -313,3 +389,8 @@ _ = searchBar.publisher(for: \.text)
 
 	QUESTION: How do you make this a publisher?
 
+
+## Resources
+
+* [Learn & Master the Basics of Combine in 5 Minutes](https://medium.com/ios-os-x-development/learn-master-%EF%B8%8F-the-basics-of-combine-in-5-minutes-639421268219)
+* 
