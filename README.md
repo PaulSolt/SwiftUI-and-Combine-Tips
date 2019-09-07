@@ -209,14 +209,26 @@
 	.padding()
 	```
 
-11. Use the Continuous Corner Radius of RoundedRectangle
+11. Use the `.continuous` style of `RoundedRectangle` for super smooth corners (like Apple's corners on your MacBook or Apple TV).
 
 	```swift
 	RoundedRectangle(cornerRadius: 5, style: .continuous)
 		.foregroundColor(Color(white:0.95))
 	```
 
+12. Use `@EnvironmentObject` for dependency injection of your model into different view controllers. Use this when you don't want to keep passing an @ObservableObject from parent `View` to child `View` when using initializer dependency injection.
 
+
+# BUGS: 
+
+1. BUG: Playgrounds with Combine deadlock Xcode 11 Beta 7
+
+	 If I run, then I try to double click text to select, Xcode is deadlocked
+
+	Workaround: use a Mac Terminal app or iPhone app to prototype code
+
+	TODO: REPORT THIS BUG
+2. 
 
 # TODO: More research Needed
 
@@ -229,3 +241,8 @@ _ = searchBar.publisher(for: \.text)
     
 }
 ```
+
+2. You can't add Publishers from `UIViewRepresentable` views (or at least I can't figure out how). The interface doesn't allow you to store state outside the `context`. 
+
+	QUESTION: How do you make this a publisher?
+
