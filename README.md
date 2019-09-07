@@ -62,6 +62,10 @@
 	            text = searchText
 	            completion?()
 	        }
+	        
+	        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+	            completion?()
+	        }
 	    }
 	    
 	    func makeCoordinator() -> SearchBarCoordinator {
@@ -79,7 +83,6 @@
 	    }
 	}
 	```
-
 
 4. Only update the content, not the sizing when conforming to `UIViewRepresentable`
 
