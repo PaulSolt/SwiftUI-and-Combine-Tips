@@ -218,6 +218,61 @@
 
 12. Use `@EnvironmentObject` for dependency injection of your model into different view controllers. Use this when you don't want to keep passing an @ObservableObject from parent `View` to child `View` when using initializer dependency injection.
 
+13. There is no `viewDidLoad()`, but you can get similar behavior in a SwiftUI project by using `onAppear` publisher.
+
+
+	```swift
+	struct ContentView: View {
+	    var body: some View {
+	        Text("Hello World")
+	            .onAppear(perform: viewDidAppear)
+	    }
+	}
+	
+	func viewDidAppear() {
+	    print("Hello World!")
+	    // Experiment here
+	    
+	    _ = ["Hello", "World"]
+	        .publisher
+	        .sink(receiveCompletion: { (status) in
+	            print("status: \(status)")  // called when finished "iterating" array
+	        }) { (word) in
+	            //        print("Word!")
+	            print(word) // called for each element in the array
+	        }
+	}
+	
+	struct ContentView_Previews: PreviewProvider {
+	    static var previews: some View {
+	        ContentView()
+	    }
+	}
+	```
+
+
+# Nice or Safe
+
+1. No more bugs from forgetting to call `super.methodName()` when using struct value types.
+
+	```swift
+	override func viewDidLoad() {
+	    super.viewDidLoad()
+	    
+	    print("Don't forget to call super!")
+	}
+	```
+	
+	
+	```swift
+	Text("Hello World")
+	    .onAppear {
+	    print("Only my code here")
+	}
+	```
+
+
+2. 
 
 # BUGS: 
 
