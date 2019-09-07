@@ -138,7 +138,7 @@
 
 7. `@State` is for internal variables that you want to use to trigger UI updates when modified. Keep them private. You don't use it to expose values externally, use `@Binding` or `@ObservedObject` for those situations.
 
-
+8. 
 
 
 # TODO: More research Needed
