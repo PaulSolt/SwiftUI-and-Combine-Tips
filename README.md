@@ -33,6 +33,53 @@
 	 1. Give it meaningful names `searchBar` instead of `uiView`
 	 2. `UISearchBar` instead of `SearchBar.UIViewType`
 
+	Here is a simple implementation that wraps up a `UISearchBar` and provides a completion handler for text events from the `UISearchBarDelegate` protocol.
+
+	```swift
+	typealias SearchCompletion = () -> Void
+	
+	struct SearchBar: UIViewRepresentable {
+	
+	    @Binding var text: String
+	    var completion: SearchCompletion? = nil
+	    
+	    init(text: Binding<String>, onChange completion: SearchCompletion? = nil) {
+	        _text = text
+	        self.completion = completion
+	    }
+	    
+	    // The coordinator allows us to listen for updates to our searchbar
+	    class SearchBarCoordinator: NSObject, UISearchBarDelegate {
+	        @Binding var text: String
+	        var completion: SearchCompletion?
+	        
+	        init(text: Binding<String>, onChange completion: SearchCompletion? = nil) {
+	            _text = text
+	            self.completion = completion
+	        }
+	        
+	        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+	            text = searchText
+	            completion?()
+	        }
+	    }
+	    
+	    func makeCoordinator() -> SearchBarCoordinator {
+	        return SearchBarCoordinator(text: $text, onChange: completion)
+	    }
+	    
+	    func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
+	        let searchBar = UISearchBar()
+	        searchBar.delegate = context.coordinator
+	        return searchBar
+	    }
+	    
+	    func updateUIView(_ searchBar: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
+	        searchBar.text = text
+	    }
+	}
+	```
+
 
 4. Only update the content, not the sizing when conforming to `UIViewRepresentable`
 
@@ -57,6 +104,10 @@
 
 6. Use a `Coordinator` object to subscribe to events from UIKit controls, give it a name that's meaningful like `SearchBarCoordinator`.
 
+
+	 A coordinator is used to listen to updates from the delegate protocol. You can bind the results from the callback delegate methods to a `@Binding`, which then gets bound to the `UIViewRepresentable`'s binding.
+	
+
 	```swift
 	class SearchBarCoordinator: NSObject, UISearchBarDelegate {
 	    @Binding var text: String
@@ -77,10 +128,17 @@
 	In your `UIViewRepresentable` class
 	
 	```swift
+	@Binding var text: String
+
 	func makeCoordinator() -> SearchBarCoordinator {
-	    return SearchBarCoordinator(text: $text, onChange: completion)
+	    return SearchBarCoordinator(text: $text), onChange: completion)
 	}
 	```
+
+
+7. `@State` is for internal variables that you want to use to trigger UI updates when modified. Keep them private. You don't use it to expose values externally, use `@Binding` or `@ObservedObject` for those situations.
+
+
 
 
 # TODO: More research Needed
