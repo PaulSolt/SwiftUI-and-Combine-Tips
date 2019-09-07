@@ -187,13 +187,13 @@
 
 9. Hide the keyboard after a commit (Enter key) on a `TextField`
 
-```swift
-TextField("Type something...", text: $query, onCommit: {
-    self.fetch()
-    // hide keyboard
-    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
-})
-```
+	```swift
+	TextField("Type something...", text: $query, onCommit: {
+	    self.fetch()
+	    // hide keyboard
+	    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+	})
+	```
 
 10. Customize a `TextField` to look distinct
 
