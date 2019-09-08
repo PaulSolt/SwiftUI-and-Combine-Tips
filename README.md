@@ -284,7 +284,15 @@ struct ContentView: View {
 
 15. Make sure you call `autoconnect()` or `connect()` on your Timer publisher. 
 
+	```swift
+	timer = Timer.publish(every: 0.2, on: .main, in: .default)
+	    .autoconnect()
+	    .sink { date in
+	        print(date)
+	    }
+	```
 
+16.
 
 
 ## Nice and Safe
