@@ -402,4 +402,4 @@ _ = searchBar.publisher(for: \.text)
 
 * [Learn & Master the Basics of Combine in 5 Minutes](https://medium.com/ios-os-x-development/learn-master-%EF%B8%8F-the-basics-of-combine-in-5-minutes-639421268219)
 * [URLSession and the Combine Framework](https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/)
-* 
+* [Fetching values from API and Integrating Mapkit in SwiftUI](https://medium.com/a-developer-in-making/fetching-values-from-api-and-integrating-mapkit-in-swiftui-3277806d9090)
