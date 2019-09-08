@@ -292,7 +292,7 @@ struct ContentView: View {
 	    }
 	```
 
-16.
+16. 
 
 
 ## Nice and Safe
@@ -401,4 +401,5 @@ _ = searchBar.publisher(for: \.text)
 ## Resources
 
 * [Learn & Master the Basics of Combine in 5 Minutes](https://medium.com/ios-os-x-development/learn-master-%EF%B8%8F-the-basics-of-combine-in-5-minutes-639421268219)
+* [URLSession and the Combine Framework](https://theswiftdev.com/2019/08/15/urlsession-and-the-combine-framework/)
 * 
