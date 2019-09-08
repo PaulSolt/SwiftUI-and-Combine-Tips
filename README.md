@@ -8,7 +8,7 @@
 ## Tips
 
 
-1. `@Publisher` needs to be contained in a class. Publishers are reference types.
+1. `@Published` needs to be contained in a class. Publishers are reference types.
 
 	```swift
 	class SearchStore: ObservableObject {
