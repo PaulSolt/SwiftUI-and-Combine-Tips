@@ -2,8 +2,9 @@
 
 ## Demo Repositories
 
-* [Combine Timer (Count up)](https://github.com/PaulSolt/CombineTimer)
-
+* [Combine Workshop (try! Swift 2019)](https://github.com/PaulSolt/Combine101-TrySwift2019) (Lesson notes included)
+* [Top Rated App Reviews Demo](https://github.com/PaulSolt/TopRatedReviewsCombine) (`@EnvironmentObject` and `@ObservableObject`)
+* [Github SwiftUI Demo](https://github.com/PaulSolt/GithubSwiftUIDemo) (`UIViewRepresentable`)
 
 ## Tips
 
